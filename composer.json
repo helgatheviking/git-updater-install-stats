@@ -1,0 +1,72 @@
+{
+  "name": "helgatheviking/git-updater-install-stats",
+  "description": "An add-on for Git Updater that loosely counts active installs per plugin or theme on your update server.",
+  "type": "wordpress-plugin",
+  "license": "GPL-3.0-or-later",
+  "require": {
+    "php": ">=8.0",
+    "afragen/git-updater-lite": "^3.5"
+  },
+  "require-dev": {
+    "wp-cli/i18n-command": "*",
+    "wp-coding-standards/wpcs": "^3.0",
+    "phpcompatibility/phpcompatibility-wp": "^2.1"
+  },
+  "scripts": {
+    "makepot": [
+      "wp i18n make-pot . languages/git-updater-install-stats.pot --slug=git-updater-install-stats --domain=git-updater-install-stats --exclude=vendor,vendor-prefixed,node_modules,tests,deploy,bin"
+    ],
+    "makepot-audit": [
+      "wp i18n audit . --domain=git-updater-install-stats"
+    ],
+    "lint": [
+      "phpcs . -s -p -n"
+    ],
+    "lint:fix": [
+      "phpcbf . "
+    ],
+    "prefix-namespaces": [
+      "sh -c 'test -f bin/strauss.phar || { mkdir -p bin && curl -fL -o bin/strauss.phar https://github.com/BrianHenryIE/strauss/releases/latest/download/strauss.phar; }'",
+      "@php bin/strauss.phar",
+      "@composer dump-autoload"
+    ],
+    "post-install-cmd": [
+      "@prefix-namespaces"
+    ],
+    "post-update-cmd": [
+      "@prefix-namespaces"
+    ]
+  },
+  "extra": {
+    "scripts-description": {
+      "makepot": "Generate a .pot file for translation",
+      "makepot-audit": "Generate a .pot file for translation. Dry run.",
+      "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+      "phpcb": "Fix coding standards warnings/errors automatically with PHP Code Beautifier",
+      "prefix-namespaces": "Prefix namespaces of dependencies with Strauss (downloads bin/strauss.phar if missing)"
+    },
+    "strauss": {
+      "target_directory": "vendor-prefixed",
+      "namespace_prefix": "HelgaTheViking\\Git_Updater\\Install_Stats\\Vendor",
+      "classmap_prefix": "HelgaTheViking_Git_Updater_Install_Stats_Vendor_",
+      "constant_prefix": "HTVGUIS_",
+      "delete_vendor_packages": true,
+      "exclude_from_copy": {
+        "file_patterns": [
+          "#/node_modules/#",
+          "#/\\.commandcode/#",
+          "#/\\.wp-env\\.json$#",
+          "#/git-updater-lite/package(-lock)?\\.json$#"
+        ]
+      }
+    }
+  },
+  "config": {
+    "platform": {
+      "php": "8.0"
+    },
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}

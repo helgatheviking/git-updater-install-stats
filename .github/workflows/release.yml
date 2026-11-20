@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Release
+
+on:
+    push:
+        tags:
+            - '[0-9]+.[0-9]+.[0-9]+*'
+
+jobs:
+    release:
+        name: Build distribution release.
+        uses: backcourt/github-workflows/.github/workflows/release-github.yml@trunk
+        with:
+            prefixed: true
+        permissions:
+            contents: write
+        # Not "inherit": this repo is outside the backcourt org, so inherited secrets don't reach the shared workflow.
+        secrets:
+            BACKCOURT_GITUPDATER_KEY: ${{ secrets.BACKCOURT_GITUPDATER_KEY }}

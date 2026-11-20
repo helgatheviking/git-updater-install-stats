@@ -13,6 +13,7 @@
 /**
  * Plugin Name:       Git Updater Install Stats
  * Plugin URI:        https://github.com/helgatheviking/git-updater-install-stats
+ * Update URI:        https://www.backcourt.io
  * Description:       An add-on for <a href="https://github.com/afragen/git-updater">Git Updater</a> by Andy Fragen. Loosely counts the sites that check this update server for each plugin or theme, and shows active installs in a dashboard widget.
  * Version:           0.1.0
  * Author:            helgatheviking
@@ -32,6 +33,17 @@ namespace HelgaTheViking\Git_Updater\Install_Stats;
  */
 if ( ! defined( 'WPINC' ) ) {
 	die;
+}
+
+/**
+ * Add Git Updater Lite
+ */
+if ( file_exists( __DIR__ . '/vendor-prefixed/autoload.php' ) ) {
+	require_once __DIR__ . '/vendor-prefixed/autoload.php';
+
+	if ( class_exists( Vendor\Fragen\Git_Updater\Lite::class ) ) {
+		( new Vendor\Fragen\Git_Updater\Lite( __FILE__ ) )->run();
+	}
 }
 
 require_once __DIR__ . '/src/History.php';

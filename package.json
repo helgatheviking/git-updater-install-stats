@@ -1,0 +1,28 @@
+{
+  "name": "git-updater-install-stats",
+  "version": "0.1.0",
+  "description": "An add-on for Git Updater that loosely counts active installs per plugin or theme on your update server.",
+  "main": "git-updater-install-stats.php",
+  "scripts": {
+    "make-pot": "composer makepot",
+    "zip": "wp-scripts plugin-zip && mkdir -p deploy && mv git-updater-install-stats.zip deploy/",
+    "release": "npm run update-version && npm run build",
+    "betarelease": "npm run update-version && npm run build",
+    "update-version": "node bin/update-version.js",
+    "version": "npm run update-version && git add git-updater-install-stats.php",
+    "postversion": "git push --follow-tags",
+    "build": "composer install --no-interaction && npm run make-pot && composer install --no-dev --optimize-autoloader --no-interaction && npm run zip && composer install --no-interaction"
+  },
+  "files": [
+    "git-updater-install-stats.php",
+    "uninstall.php",
+    "src/",
+    "languages/",
+    "README.md",
+    "vendor/",
+    "vendor-prefixed/"
+  ],
+  "devDependencies": {
+    "@wordpress/scripts": "^37.0.0"
+  }
+}
