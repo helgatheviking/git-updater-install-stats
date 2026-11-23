@@ -4,6 +4,10 @@ An add-on for [Git Updater](https://github.com/afragen/git-updater) by Andy Frag
 
 When your site serves updates to [Git Updater Lite](https://github.com/afragen/git-updater-lite) clients, this add-on loosely counts how many sites check for each plugin or theme, and shows the active installs in a dashboard widget.
 
+<img src=".github/screenshot-widget.png" width="588" alt="The Git Updater Active Installs dashboard widget, listing plugin slugs with a 90-day trend line and their active install counts">
+
+*Sample data with made-up plugin names.*
+
 ## How it works
 
 - Only successful requests to `git-updater/v1/update-api` are counted. Error responses, such as unknown or unshared slugs, are ignored.
