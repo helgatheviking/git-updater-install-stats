@@ -25,6 +25,13 @@ class Widget {
 	private const ID = 'gu_install_stats';
 
 	/**
+	 * Smallest y axis range of a trend line, as a fraction of the slug's highest count.
+	 *
+	 * @var float
+	 */
+	private const MIN_RANGE = 0.1;
+
+	/**
 	 * Load relevant action/filter hooks.
 	 *
 	 * @return void
@@ -112,7 +119,9 @@ class Widget {
 	 * Build an inline SVG trend line from daily snapshots.
 	 *
 	 * Points are placed by date, so a missed cron day leaves a gap in spacing
-	 * rather than squashing the line. The y axis spans the slug's min to max.
+	 * rather than squashing the line. The y axis spans the slug's min to max,
+	 * widened around the middle to at least MIN_RANGE of the max (and at least 1)
+	 * so a steady slug's small wobbles stay small.
 	 *
 	 * @param array<string, int> $days Installs keyed by Y-m-d, ascending.
 	 *
@@ -133,10 +142,13 @@ class Widget {
 		$min   = min( $days );
 		$max   = max( $days );
 
+		$range = max( $max - $min, $max * self::MIN_RANGE, 1 );
+		$low   = max( 0, ( $min + $max - $range ) / 2 );
+
 		$points = [];
 		foreach ( $days as $date => $installs ) {
 			$x        = $pad + ( strtotime( $date . ' UTC' ) - $first ) / $span * ( $width - 2 * $pad );
-			$y        = $max === $min ? $height / 2 : $height - $pad - ( $installs - $min ) / ( $max - $min ) * ( $height - 2 * $pad );
+			$y        = $height - $pad - ( $installs - $low ) / $range * ( $height - 2 * $pad );
 			$points[] = round( $x, 1 ) . ',' . round( $y, 1 );
 		}
 
