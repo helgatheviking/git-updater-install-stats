@@ -15,7 +15,7 @@
  * Plugin URI:        https://github.com/helgatheviking/git-updater-install-stats
  * Update URI:        https://www.backcourt.io
  * Description:       An add-on for <a href="https://github.com/afragen/git-updater">Git Updater</a> by Andy Fragen. Loosely counts the sites that check this update server for each plugin or theme, and shows active installs in a dashboard widget.
- * Version:           0.1.0
+ * Version:           0.1.1
  * Author:            helgatheviking
  * License:           GPL-3.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
